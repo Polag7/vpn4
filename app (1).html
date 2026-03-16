@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VPN Price Comparison</title>
+    <style>
+        :root {
+            /* Light Theme Variables */
+            --bg-light: #f5f5f5;
+            --card-light: #ffffff;
+            --text-light: #333333;
+            --border-light: #e0e0e0;
+            --accent-light: #007bff;
+            --shadow-light: 0 2px 8px rgba(0,0,0,0.1);
+            --table-bg-light: #fafafa;
+            
+            /* Dark Theme Variables */
+            --bg-dark: #121212;
+            --card-dark: #1e1e1e;
+            --text-dark: #e0e0e0;
+            --border-dark: #333333;
+            --accent-dark: #64b5f6;
+            --shadow-dark: 0 2px 8px rgba(0,0,0,0.4);
+            --table-bg-dark: #2d2d2d;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            padding: 20px;
+        }
+
+        body.light-mode {
+            background-color: var(--bg-light);
+            color: var(--text-light);
+        }
+
+        body.dark-mode {
+            background-color: var(--bg-dark);
+            color: var(--text-dark);
+        }
+
+        /* Theme Toggle Button */
+        .theme-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 16px;
+            background: var(--accent-light);
+            color: white;
+            z-index: 1000;
+            transition: background-color 0.3s ease;
+        }
+
+        body.dark-mode .theme-toggle {
+            background: var(--accent-dark);
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 30px;
+            border-radius: 15px;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        /* VPN Cards Grid */
+        .vpn-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* VPN Card */
+        .vpn-card {
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: var(--shadow-light, var(--shadow-dark));
+            border: 1px solid var(--border-light, var(--border-dark));
+            background: var(--card-light, var(--card-dark));
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .vpn-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-dark);
+        }
+
+        .vpn-name {
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .vpn-name.badge {
+            background: var(--accent-light);
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+
+        .pricing {
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+        }
+
+        .price {
+            font-weight: bold;
+            color: var(--accent-light);
+        }
+
+        .period {
+            opacity: 0.7;
+            font-size: 0.9rem;
+        }
+
+        .features {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid var(--border-light, var(--border-dark));
+        }
+
+        .feature-tag {
+            display: inline-block;
+            background: rgba(0, 123, 255, 0.1);
+            color: var(--accent-light);
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.85rem;
+            margin: 3px;
+        }
+
+        .body.dark-mode .feature-tag {
+            background: rgba(100, 181, 246, 0.2);
+        }
+
+        /* Monthly Plans */
+        .monthly-pricing {
+            margin-top: 10px;
+            font-size: 0.9rem;
+            background: var(--table-bg-light, var(--table-bg-dark));
+            padding: 10px;
+            border-radius: 10px;
+        }
+
+        /* Utility Classes */
+        .mobile {
+            font-size: 0.9rem;
+        }
+        
+        .pixel {
+            font-size: 0.8rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.8rem;
+            }
+            .vpn-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body class="light-mode">
+
+    <!-- Theme Toggle -->
+    <button class="theme-toggle" onclick="toggleTheme()" id="themeToggle">
+        🌙 Dark Mode
+    </button>
+
+    <!-- Header -->
+    <div class="header">
+        <h1>🛡️ VPN Price Comparison</h1>
+        <p>Compare the best VPN deals for 2026</p>
+    </div>
+
+    <!-- VPN Pricing Grid -->
+    <div class="vpn-grid">
+        
+        <div class="vpn-card">
+            <div class="vpn-name">Namecheap VPN <span class="badge">🏆 Best Value</span></div>
+            <div class="pricing"><span class="price">$12</span> / <span class="period">1 year</span></div>
+            <div class="pricing"><span class="price">$68</span> / <span class="period">3 years</span></div>
+        </div>
+
+        <div class="vpn-card">
+            <div class="vpn-name">Bitdefender VPN</div>
+            <div class="pricing"><span class="price">$35</span> / <span class="period">1 year</span></div>
+        </div>
+
+        <div class="vpn-card">
+            <div class="vpn-name">Fastest VPN <span class="badge">⚡ Top Speed</span></div>
+            <div class="pricing"><span class="price">$20</span> / <span class="period">2 years</span></div>
+            <div class="pricing"><span class="price">$40</span> / <span class="period">Lifetime</span></div>
+        </div>
+
+        <div class="vpn-card">
+            <div class="vpn-name">Panda VPN</div>
+            <div class="pricing"><span class="price">$40</span> / <span class="period">1 year</span></div>
+        </div>
+
+        <div class="vpn-card">
+            <div class="vpn-name">Privado VPN <span class="badge">💎 Deal</span></div>
+            <div class="pricing"><span class="price">$16</span> / <span class="period">1 year</span></div>
+            <div class="pricing"><span class="price">$27</span> / <span class="period">2 years</span></div>
+        </div>
+
+        <div class="vpn-card">
+            <div class="vpn-name">Safeshell VPN</div>
+            <div class="pricing"><span class="price">$17</span> / <span class="period">3 Month</span></div>
+            <div class="pricing"><span class="price">$60</span> / <span class="period">1 year</span></div>
+        </div>
+
+        <div class="vpn-card">
+            <div class="vpn-name">Smart DNS Proxy <span class="badge">🔄 DNS</span></div>
+            <div class="pricing"><span class="price">$7</span> / <span class="period">Month</span></div>
+            <div class="pricing"><span class="price">$18</span> / <span class="period">3 month</span></div>
+            <div class="pricing"><span class="price">$55</span> / <span class="period">1 Year</span></div>
+            <div class="pricing"><span class="price">$70</span> / <span class="period">2 year</span></div>
+            <div class="pricing"><span class="price">$200</span> / <span class="period">Lifetime</span></div>
+        </div>
+
+        <div class="vpn-card">
+            <div class="vpn-name">Ipro VPN</div>
+            <div class="pricing"><span class="price">$6</span> / <span class="period">Month</span></div>
+            <div class="pricing"><span class="price">$20</span> / <span class="period">1 Year</span></div>
+            <div class="pricing"><span class="price">$40</span> / <span class="period">5 Year</span></div>
+        </div>
+
+        <div class="vpn-card">
+            <div class="vpn-name">X VPN</div>
+            <div class="pricing"><span class="price">$3</span> / <span class="period">Month</span></div>
+            <div class="pricing"><span class="price">$70</span> / <span class="period">2 year</span></div>
+            <span class="badge mobile">💰 Cheapest</span>
+        </div>
+
+        <div class="vpn-card">
+            <div class="vpn-name">Strong VPN</div>
+            <div class="pricing"><span class="price">$48</span> / <span class="period">1 year</span></div>
+        </div>
+
+        <div class="vpn-card">
+            <div class="vpn-name">TunnelBear</div>
+            <div class="pricing"><span class="price">$48</span> / <span class="period">1 year</span></div>
+        </div>
+
+        <div class="vpn-card">
+            <div class="vpn-name">Trust.Zone</div>
+            <div class="pricing"><span class="price">$56</span> / <span class="period">2 year</span></div>
+        </div>
+
+        <div class="vpn-card">
+            <div class="vpn-name">Hide.me</div>
+            <div class="pricing"><span class="price">$70</span> / <span class="period">2 year</span></div>
+        </div>
+
+        <div class="vpn-card">
+            <div class="vpn-name">Surfshark VPN <span class="badge">📱 Unlimited</span></div>
+            <div class="pricing"><span class="price">$53.73</span> / <span class="period">27 months</span></div>
+            <span class="feature-tag">💡 Unlimited Devices</span>
+        </div>
+
+        <div class="vpn-card">
+            <div class="vpn-name">IPVanish VPN <span class="badge">📱 Unlimited</span></div>
+            <div class="pricing"><span class="price">$47</span> / <span class="period">1 year</span></div>
+            <span class="feature-tag">💡 Unlimited Devices</span>
+        </div>
+
+        <div class="vpn-card">
+            <div class="vpn-name">PrivateVPN</div>
+            <div class="pricing"><span class="price">$72</span> / <span class="period">3 year</span></div>
+        </div>
+
+        <div class="vpn-card">
+            <div class="vpn-name">PureVPN</div>
+            <div class="pricing"><span class="price">$58</span> / <span class="period">27 months</span></div>
+        </div>
+
+        <div class="vpn-card">
+            <div class="vpn-name">Veepn</div>
+            <div class="pricing"><span class="price">$56</span> / <span class="period">28 months</span></div>
+        </div>
+
+        <div class="vpn-card">
+            <div class="vpn-name">Ivacy VPN</div>
+            <div class="pricing"><span class="price">$54</span> / <span class="period">2 year</span></div>
+            <div class="pricing"><span class="price">$102</span> / <span class="period">5 year</span></div>
+        </div>
+
+        <div class="vpn-card">
+            <div class="vpn-name">IVPN</div>
+            <div class="pricing"><span class="price">$1</span> / <span class="period">Week</span></div>
+            <div class="pricing"><span class="price">$6</span> / <span class="period">Month</span></div>
+            <div class="pricing"><span class="price">$60</span> / <span class="period">1 Year</span></div>
+            <div class="pricing"><span class="price">$100</span> / <span class="period">2 Years</span></div>
+            <div class="pricing"><span class="price">$140</span> / <span class="period">3 Years</span></div>
+        </div>
+
+        <div class="vpn-card">
+            <div class="vpn-name">Mullvad VPN <span class="badge">⛔ No Logs</span></div>
+            <div class="pricing"><span class="price">$6</span> / <span class="period">Month</span></div>
+            <span class="feature-tag">🔒 No Tracker</span>
+        </div>
+
+        <div class="vpn-card">
+            <div class="vpn-name">Cactus VPN</div>
+            <div class="pricing"><span class="price">$70</span> / <span class="period">32 Month</span></div>
+        </div>
+
+        <div class="vpn-card">
+            <div class="vpn-card"></div>
+            <div class="pricing"><span class="price">$78</span> / <span class="period">1 year</span></div>
+        </div>
+
+        <div class="vpn-card">
+            <div class="vpn-name">NordLayer VPN</div>
+            <div class="pricing"><span class="price">$8</span> / <span class="period">Month</span></div>
+        </div>
+
+        <div class="vpn-card">
+            <div class="vpn-card"></div>
+            <div class="pricing"><span class="price">$8</span> / <span class="period">Month</span></div>
+        </div>
+
+        <div class="vpn-card">
+            <div class="vpn-name">iSHOSTING</div>
+            <div class="pricing"><span class="price">$7</span> / <span class="period">Month</span></div>
+        </div>
+
+        <div class="vpn-card">
+            <div class="vpn-name">Meer DNS</div>
+            <div class="pricing"><span class="price">$2</span> / <span class="period">Month</span></div>
+            <div class="pricing"><span class="price">$20</span> / <span class="period">Year</span></div>
+        </div>
+
+        <div class="vpn-card">
+            <div class="vpn-name">Smarty DNS</div>
+            <div class="pricing"><span class="price">$50</span> / <span class="period">1 year</span></div>
+        </div>
+
+        <div class="vpn-card">
+            <div class="vpn-name">Uttunnel.io</div>
+            <div class="pricing"><span class="price">$6</span> / <span class="period">Month</span></div>
+        </div>
+
+        <div class="vpn-card">
+            <div class="vpn-name">Browsec</div>
+            <div class="pricing"><span class="price">$48</span> / <span class="period">2 year</span></div>
+        </div>
+
+        <div class="vpn-card">
+            <div class="vpn-name">VyprVPN</div>
+            <div class="pricing"><span class="price">$72</span> / <span class="period">2 year</span></div>
+            <span class="feature-tag">🔍 Chameleon</span>
+        </div>
+
+        <div class="vpn-card">
+            <div class="vpn-name">Torguard VPN</div>
+            <div class="pricing"><span class="price">$60</span> / <span class="period">1 year</span></div>
+        </div>
+
+        <div class="vpn-card">
+            <div class="vpn-name">Le-VPN</div>
+            <div class="pricing"><span class="price">$80</span> / <span class="period">3 year</span></div>
+        </div>
+
+        <div class="vpn-card">
+            <div class="vpn-name">Windscribe</div>
+            <div class="pricing"><span class="price">$70</span> / <span class="period">1 year</span></div>
+        </div>
+
+        <div class="vpn-card">
+            <div class="vpn-name">Private Internet Access</div>
+            <div class="pricing"><span class="price">$79</span> / <span class="period">3 years</span></div>
+        </div>
+
+        <div class="vpn-card">
+            <div class="vpn-name">Hotspotshield</div>
+            <div class="pricing"><span class="price">$8</span> / <span class="period">Month</span></div>
+        </div>
+
+        <div class="vpn-card">
+            <div class="vpn-name">Netflix VPN</div>
+            <div class="pricing"><span class="price">$60</span> / <span class="period">2 year</span></div>
+            <span class="feature-tag">🎬 Streaming</span>
+        </div>
+
+        <div class="vpn-card">
+            <div class="vpn-name">Switch VPN</div>
+            <div class="pricing"><span class="price">$60</span> / <span class="period">1 year</span></div>
+        </div>
+
+        <div class="vpn-card">
+            <div class="vpn-name">Turbo VPN</div>
+            <div class="pricing"><span class="price">$90</span> / <span class="period">27 Months</span></div>
+        </div>
+
+        <div class="vpn-card">
+            <div class="vpn-name">Fly VPN</div>
+            <div class="pricing"><span class="price">$120</span> / <span class="period">2 year</span></div>
+        </div>
+
+        <div class="vpn-card">
+            <div class="vpn-name">Air VPN</div>
+            <div class="pricing"><span class="price">99€</span> / <span class="period">3 year</span></div>
+        </div>
+
+        <div class="vpn-card">
+            <div class="vpn-card"></div>
+            <div class="pricing"><span class="price">$70</span> / <span class="period">2 year</span></div>
+        </div>
+
+        <div class="vpn-card">
+            <div class="vpn-name">Zoog VPN</div>
+            <div class="pricing"><span class="price">$60</span> / <span class="period">2 year</span></div>
+        </div>
+
+        <div class="vpn-card">
+            <div class="vpn-name">Switch VPN V2</div>
+            <div class="pricing"><span class="price">$90</span> / <span class="period">1 year</span></div>
+        </div>
+
+        <div class="vpn-card">
+            <div class="vpn-name">Avira VPN</div>
+            <div class="pricing"><span class="price">$78</span> / <span class="period">1 year</span></div>
+        </div>
+
+        <div class="vpn-card">
+            <div class="vpn-name">NordLayer VPN</div>
+            <div class="pricing"><span class="price">$8</span> / <span class="period">Month</span></div>
+        </div>
+
+        <div class="vpn-card">
+            <div class="vpn-name">Plus.Award-VPN</div>
+            <div class="pricing"><span class="price">£49</span> / <span class="period">1 year</span></div>
+        </div>
+
+        <div class="vpn-card">
+            <div class="vpn-name">Vuze VPN</div>
+            <div class="pricing"><span class="price">$72</span> / <span class="period">1 year</span></div>
+        </div>
+
+        <div class="vpn-card">
+            <div class="vpn-name">OVPN</div>
+            <div class="pricing"><span class="price">$60</span> / <span class="period">1 year</span></div>
+            <div class="pricing"><span class="price">$152</span> / <span class="period">3 years</span></div>
+        </div>
+
+        <div class="vpn-card">
+            <div class="vpn-name">Express VPN</div>
+            <div class="pricing"><span class="price">$78.18</span> / <span class="period">28 Months</span></div>
+        </div>
+
+        <div class="vpn-card">
+            <div class="vpn-name">Nord VPN</div>
+            <div class="pricing"><span class="price">$82</span> / <span class="period">2 year</span></div>
+        </div>
+
+        <div class="vpn-card">
+            <div class="vpn-name">CyberGhost VPN</div>
+            <div class="pricing"><span class="price">$57</span> / <span class="period">2 years</span></div>
+        </div>
+
+        <div class="vpn-card">
+            <div class="vpn-name">HideMyAss VPN (HMA)</div>
+            <div class="pricing"><span class="price">$108</span> / <span class="period">3 year</span></div>
+        </div>
+
+        <div class="vpn-card">
+            <div class="vpn-name">AVG VPN</div>
+            <div class="pricing"><span class="price">$135</span> / <span class="period">3 year</span></div>
+        </div>
+
+        <div class="vpn-card">
+            <div class="vpn-name">VPN Unlimited</div>
+            <div class="pricing"><span class="price">$60</span> / <span class="period">1 year</span></div>
+            <div class="pricing"><span class="price">$162</span> / <span class="period">3 years</span></div>
+        </div>
+
+    </div>
+
+    <script>
+        // Theme Toggle Function
+        function toggleTheme() {
+            const body = document.body;
+            const toggleBtn = document.getElementById('themeToggle');
+            
+            body.classList.toggle('light-mode');
+            
+            if (body.classList.contains('light-mode')) {
+                body.classList.remove('dark-mode');
+                toggleBtn.textContent = '🌙 Dark Mode';
+                localStorage.setItem('theme', 'light');
+            } else {
+                body.classList.toggle('light-mode');
+                toggleBtn.textContent = '☀️ Light Mode';
+                localStorage.setItem('theme', 'dark');
+            }
+        }
+
+        // Check Saved Theme on Load
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'dark') {
+                document.body.classList.remove('light-mode');
+            }
+        });
+    </script>
+</body>
+</html>
