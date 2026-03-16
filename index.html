@@ -3,537 +3,232 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VPN Price Comparison</title>
+    <title>VPN List · Alphabetical · PKR Rates</title>
     <style>
-        :root {
-            /* Light Theme Variables */
-            --bg-light: #f5f5f5;
-            --card-light: #ffffff;
-            --text-light: #333333;
-            --border-light: #e0e0e0;
-            --accent-light: #007bff;
-            --shadow-light: 0 2px 8px rgba(0,0,0,0.1);
-            --table-bg-light: #fafafa;
-            
-            /* Dark Theme Variables */
-            --bg-dark: #121212;
-            --card-dark: #1e1e1e;
-            --text-dark: #e0e0e0;
-            --border-dark: #333333;
-            --accent-dark: #64b5f6;
-            --shadow-dark: 0 2px 8px rgba(0,0,0,0.4);
-            --table-bg-dark: #2d2d2d;
-        }
-
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
         }
-
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            transition: background-color 0.3s ease, color 0.3s ease;
-            padding: 20px;
-        }
-
-        body.light-mode {
-            background-color: var(--bg-light);
-            color: var(--text-light);
-        }
-
-        body.dark-mode {
-            background-color: var(--bg-dark);
-            color: var(--text-dark);
-        }
-
-        /* Theme Toggle Button */
-        .theme-toggle {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            padding: 12px 20px;
-            border: none;
-            border-radius: 30px;
-            cursor: pointer;
-            font-size: 16px;
-            background: var(--accent-light);
-            color: white;
-            z-index: 1000;
-            transition: background-color 0.3s ease;
-        }
-
-        body.dark-mode .theme-toggle {
-            background: var(--accent-dark);
-        }
-
-        /* Header */
-        .header {
-            text-align: center;
-            margin-bottom: 40px;
-            padding: 30px;
-            border-radius: 15px;
-        }
-
-        .header h1 {
-            font-size: 2.5rem;
-            margin-bottom: 10px;
-        }
-
-        .header p {
-            font-size: 1.2rem;
-            opacity: 0.9;
-        }
-
-        /* VPN Cards Grid */
-        .vpn-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 20px;
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-
-        /* VPN Card */
-        .vpn-card {
-            padding: 25px;
-            border-radius: 15px;
-            box-shadow: var(--shadow-light, var(--shadow-dark));
-            border: 1px solid var(--border-light, var(--border-dark));
-            background: var(--card-light, var(--card-dark));
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-        }
-
-        .vpn-card:hover {
-            transform: translateY(-5px);
-            box-shadow: var(--shadow-dark);
-        }
-
-        .vpn-name {
-            font-size: 1.3rem;
-            font-weight: bold;
-            margin-bottom: 15px;
+            background: #f3f6fc;
+            padding: 2rem 1.5rem;
             display: flex;
+            flex-direction: column;
             align-items: center;
-            gap: 10px;
         }
-
-        .vpn-name.badge {
-            background: var(--accent-light);
+        .container {
+            max-width: 1400px;
+            width: 100%;
+        }
+        .title-section {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+        .title-section h1 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            background: linear-gradient(145deg, #022b49, #194b6b);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -0.02em;
+        }
+        .pkr-note {
+            background: #1a3b55;
             color: white;
-            padding: 5px 12px;
-            border-radius: 20px;
+            padding: 0.5rem 1.8rem;
+            border-radius: 40px;
+            font-weight: 500;
+            font-size: 0.95rem;
+            box-shadow: 0 4px 10px rgba(0,30,50,0.2);
+            border: 1px solid #ffffff30;
+        }
+        .table-wrapper {
+            background: white;
+            border-radius: 36px;
+            box-shadow: 0 30px 55px -18px rgba(0,35,70,0.25);
+            overflow-x: auto;
+            border: 1px solid #dee9f2;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.95rem;
+            min-width: 1000px;
+        }
+        th {
+            text-align: left;
+            padding: 1.2rem 1rem 1rem 1.8rem;
+            font-weight: 600;
             font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #204b6f;
+            background: #e5effb;
+            border-bottom: 2px solid #c5d6ea;
         }
-
-        .pricing {
-            font-size: 1.1rem;
-            margin-bottom: 10px;
+        td {
+            padding: 1rem 1rem 1rem 1.8rem;
+            border-bottom: 1px solid #e3ebf5;
+            color: #102c44;
+            vertical-align: middle;
         }
-
-        .price {
-            font-weight: bold;
-            color: var(--accent-light);
+        tr:last-child td {
+            border-bottom: none;
         }
-
-        .period {
-            opacity: 0.7;
-            font-size: 0.9rem;
+        tr:hover td {
+            background-color: #f2f9ff;
         }
-
-        .features {
-            margin-top: 15px;
-            padding-top: 15px;
-            border-top: 1px solid var(--border-light, var(--border-dark));
+        .vpn-name {
+            font-weight: 700;
+            font-size: 1rem;
+            color: #052137;
         }
-
-        .feature-tag {
-            display: inline-block;
-            background: rgba(0, 123, 255, 0.1);
-            color: var(--accent-light);
-            padding: 5px 12px;
-            border-radius: 15px;
+        .plan-cell {
+            max-width: 320px;
+            line-height: 1.6;
+        }
+        .price-badge {
+            background: #e0ebf9;
+            color: #0c3f62;
+            padding: 0.2rem 0.9rem;
+            border-radius: 40px;
             font-size: 0.85rem;
-            margin: 3px;
+            display: inline-block;
+            margin: 0.2rem 0.25rem;
+            white-space: nowrap;
+            border: 1px solid #b7d0e9;
+            font-weight: 500;
         }
-
-        .body.dark-mode .feature-tag {
-            background: rgba(100, 181, 246, 0.2);
+        .pkr-badge {
+            background: #d9e6d9;
+            color: #1f543e;
+            padding: 0.2rem 0.9rem;
+            border-radius: 40px;
+            font-size: 0.82rem;
+            display: inline-block;
+            margin: 0.2rem 0.25rem;
+            white-space: nowrap;
+            border: 1px solid #a1c0a1;
+            font-weight: 500;
         }
-
-        /* Monthly Plans */
-        .monthly-pricing {
-            margin-top: 10px;
+        .website-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            background: #edf3fa;
+            padding: 0.4rem 1.2rem;
+            border-radius: 60px;
+            text-decoration: none;
+            color: #195180;
+            font-weight: 500;
             font-size: 0.9rem;
-            background: var(--table-bg-light, var(--table-bg-dark));
-            padding: 10px;
-            border-radius: 10px;
+            transition: 0.1s;
+            border: 1px solid transparent;
         }
-
-        /* Utility Classes */
-        .mobile {
-            font-size: 0.9rem;
+        .website-link:hover {
+            background: #dde9f8;
+            border-color: #9db9db;
+            color: #083459;
         }
-        
-        .pixel {
+        .footer-note {
+            margin-top: 2.2rem;
+            background: #d2e3f0;
+            padding: 0.8rem 2.2rem;
+            border-radius: 60px;
+            font-size: 0.95rem;
+            color: #113753;
+            display: inline-block;
+            font-weight: 500;
+        }
+        .conversion-hint {
             font-size: 0.8rem;
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            .header h1 {
-                font-size: 1.8rem;
-            }
-            .vpn-grid {
-                grid-template-columns: 1fr;
-            }
+            color: #3f627c;
+            margin-left: 0.3rem;
         }
     </style>
 </head>
-<body class="light-mode">
-
-    <!-- Theme Toggle -->
-    <button class="theme-toggle" onclick="toggleTheme()" id="themeToggle">
-        🌙 Dark Mode
-    </button>
-
-    <!-- Header -->
-    <div class="header">
-        <h1>🛡️ VPN Price Comparison</h1>
-        <p>Compare the best VPN deals for 2026</p>
+<body>
+<div class="container">
+    <div class="title-section">
+        <h1>🔐 VPN Services · A–Z · PKR Rates</h1>
+        <div class="pkr-note">🇵🇰 Pakistani Rupee (1 USD ≈ 280 PKR)</div>
     </div>
 
-    <!-- VPN Pricing Grid -->
-    <div class="vpn-grid">
-        
-        <div class="vpn-card">
-            <div class="vpn-name">Namecheap VPN <span class="badge">🏆 Best Value</span></div>
-            <div class="pricing"><span class="price">$12</span> / <span class="period">1 year</span></div>
-            <div class="pricing"><span class="price">$68</span> / <span class="period">3 years</span></div>
-        </div>
-
-        <div class="vpn-card">
-            <div class="vpn-name">Bitdefender VPN</div>
-            <div class="pricing"><span class="price">$35</span> / <span class="period">1 year</span></div>
-        </div>
-
-        <div class="vpn-card">
-            <div class="vpn-name">Fastest VPN <span class="badge">⚡ Top Speed</span></div>
-            <div class="pricing"><span class="price">$20</span> / <span class="period">2 years</span></div>
-            <div class="pricing"><span class="price">$40</span> / <span class="period">Lifetime</span></div>
-        </div>
-
-        <div class="vpn-card">
-            <div class="vpn-name">Panda VPN</div>
-            <div class="pricing"><span class="price">$40</span> / <span class="period">1 year</span></div>
-        </div>
-
-        <div class="vpn-card">
-            <div class="vpn-name">Privado VPN <span class="badge">💎 Deal</span></div>
-            <div class="pricing"><span class="price">$16</span> / <span class="period">1 year</span></div>
-            <div class="pricing"><span class="price">$27</span> / <span class="period">2 years</span></div>
-        </div>
-
-        <div class="vpn-card">
-            <div class="vpn-name">Safeshell VPN</div>
-            <div class="pricing"><span class="price">$17</span> / <span class="period">3 Month</span></div>
-            <div class="pricing"><span class="price">$60</span> / <span class="period">1 year</span></div>
-        </div>
-
-        <div class="vpn-card">
-            <div class="vpn-name">Smart DNS Proxy <span class="badge">🔄 DNS</span></div>
-            <div class="pricing"><span class="price">$7</span> / <span class="period">Month</span></div>
-            <div class="pricing"><span class="price">$18</span> / <span class="period">3 month</span></div>
-            <div class="pricing"><span class="price">$55</span> / <span class="period">1 Year</span></div>
-            <div class="pricing"><span class="price">$70</span> / <span class="period">2 year</span></div>
-            <div class="pricing"><span class="price">$200</span> / <span class="period">Lifetime</span></div>
-        </div>
-
-        <div class="vpn-card">
-            <div class="vpn-name">Ipro VPN</div>
-            <div class="pricing"><span class="price">$6</span> / <span class="period">Month</span></div>
-            <div class="pricing"><span class="price">$20</span> / <span class="period">1 Year</span></div>
-            <div class="pricing"><span class="price">$40</span> / <span class="period">5 Year</span></div>
-        </div>
-
-        <div class="vpn-card">
-            <div class="vpn-name">X VPN</div>
-            <div class="pricing"><span class="price">$3</span> / <span class="period">Month</span></div>
-            <div class="pricing"><span class="price">$70</span> / <span class="period">2 year</span></div>
-            <span class="badge mobile">💰 Cheapest</span>
-        </div>
-
-        <div class="vpn-card">
-            <div class="vpn-name">Strong VPN</div>
-            <div class="pricing"><span class="price">$48</span> / <span class="period">1 year</span></div>
-        </div>
-
-        <div class="vpn-card">
-            <div class="vpn-name">TunnelBear</div>
-            <div class="pricing"><span class="price">$48</span> / <span class="period">1 year</span></div>
-        </div>
-
-        <div class="vpn-card">
-            <div class="vpn-name">Trust.Zone</div>
-            <div class="pricing"><span class="price">$56</span> / <span class="period">2 year</span></div>
-        </div>
-
-        <div class="vpn-card">
-            <div class="vpn-name">Hide.me</div>
-            <div class="pricing"><span class="price">$70</span> / <span class="period">2 year</span></div>
-        </div>
-
-        <div class="vpn-card">
-            <div class="vpn-name">Surfshark VPN <span class="badge">📱 Unlimited</span></div>
-            <div class="pricing"><span class="price">$53.73</span> / <span class="period">27 months</span></div>
-            <span class="feature-tag">💡 Unlimited Devices</span>
-        </div>
-
-        <div class="vpn-card">
-            <div class="vpn-name">IPVanish VPN <span class="badge">📱 Unlimited</span></div>
-            <div class="pricing"><span class="price">$47</span> / <span class="period">1 year</span></div>
-            <span class="feature-tag">💡 Unlimited Devices</span>
-        </div>
-
-        <div class="vpn-card">
-            <div class="vpn-name">PrivateVPN</div>
-            <div class="pricing"><span class="price">$72</span> / <span class="period">3 year</span></div>
-        </div>
-
-        <div class="vpn-card">
-            <div class="vpn-name">PureVPN</div>
-            <div class="pricing"><span class="price">$58</span> / <span class="period">27 months</span></div>
-        </div>
-
-        <div class="vpn-card">
-            <div class="vpn-name">Veepn</div>
-            <div class="pricing"><span class="price">$56</span> / <span class="period">28 months</span></div>
-        </div>
-
-        <div class="vpn-card">
-            <div class="vpn-name">Ivacy VPN</div>
-            <div class="pricing"><span class="price">$54</span> / <span class="period">2 year</span></div>
-            <div class="pricing"><span class="price">$102</span> / <span class="period">5 year</span></div>
-        </div>
-
-        <div class="vpn-card">
-            <div class="vpn-name">IVPN</div>
-            <div class="pricing"><span class="price">$1</span> / <span class="period">Week</span></div>
-            <div class="pricing"><span class="price">$6</span> / <span class="period">Month</span></div>
-            <div class="pricing"><span class="price">$60</span> / <span class="period">1 Year</span></div>
-            <div class="pricing"><span class="price">$100</span> / <span class="period">2 Years</span></div>
-            <div class="pricing"><span class="price">$140</span> / <span class="period">3 Years</span></div>
-        </div>
-
-        <div class="vpn-card">
-            <div class="vpn-name">Mullvad VPN <span class="badge">⛔ No Logs</span></div>
-            <div class="pricing"><span class="price">$6</span> / <span class="period">Month</span></div>
-            <span class="feature-tag">🔒 No Tracker</span>
-        </div>
-
-        <div class="vpn-card">
-            <div class="vpn-name">Cactus VPN</div>
-            <div class="pricing"><span class="price">$70</span> / <span class="period">32 Month</span></div>
-        </div>
-
-        <div class="vpn-card">
-            <div class="vpn-card"></div>
-            <div class="pricing"><span class="price">$78</span> / <span class="period">1 year</span></div>
-        </div>
-
-        <div class="vpn-card">
-            <div class="vpn-name">NordLayer VPN</div>
-            <div class="pricing"><span class="price">$8</span> / <span class="period">Month</span></div>
-        </div>
-
-        <div class="vpn-card">
-            <div class="vpn-card"></div>
-            <div class="pricing"><span class="price">$8</span> / <span class="period">Month</span></div>
-        </div>
-
-        <div class="vpn-card">
-            <div class="vpn-name">iSHOSTING</div>
-            <div class="pricing"><span class="price">$7</span> / <span class="period">Month</span></div>
-        </div>
-
-        <div class="vpn-card">
-            <div class="vpn-name">Meer DNS</div>
-            <div class="pricing"><span class="price">$2</span> / <span class="period">Month</span></div>
-            <div class="pricing"><span class="price">$20</span> / <span class="period">Year</span></div>
-        </div>
-
-        <div class="vpn-card">
-            <div class="vpn-name">Smarty DNS</div>
-            <div class="pricing"><span class="price">$50</span> / <span class="period">1 year</span></div>
-        </div>
-
-        <div class="vpn-card">
-            <div class="vpn-name">Uttunnel.io</div>
-            <div class="pricing"><span class="price">$6</span> / <span class="period">Month</span></div>
-        </div>
-
-        <div class="vpn-card">
-            <div class="vpn-name">Browsec</div>
-            <div class="pricing"><span class="price">$48</span> / <span class="period">2 year</span></div>
-        </div>
-
-        <div class="vpn-card">
-            <div class="vpn-name">VyprVPN</div>
-            <div class="pricing"><span class="price">$72</span> / <span class="period">2 year</span></div>
-            <span class="feature-tag">🔍 Chameleon</span>
-        </div>
-
-        <div class="vpn-card">
-            <div class="vpn-name">Torguard VPN</div>
-            <div class="pricing"><span class="price">$60</span> / <span class="period">1 year</span></div>
-        </div>
-
-        <div class="vpn-card">
-            <div class="vpn-name">Le-VPN</div>
-            <div class="pricing"><span class="price">$80</span> / <span class="period">3 year</span></div>
-        </div>
-
-        <div class="vpn-card">
-            <div class="vpn-name">Windscribe</div>
-            <div class="pricing"><span class="price">$70</span> / <span class="period">1 year</span></div>
-        </div>
-
-        <div class="vpn-card">
-            <div class="vpn-name">Private Internet Access</div>
-            <div class="pricing"><span class="price">$79</span> / <span class="period">3 years</span></div>
-        </div>
-
-        <div class="vpn-card">
-            <div class="vpn-name">Hotspotshield</div>
-            <div class="pricing"><span class="price">$8</span> / <span class="period">Month</span></div>
-        </div>
-
-        <div class="vpn-card">
-            <div class="vpn-name">Netflix VPN</div>
-            <div class="pricing"><span class="price">$60</span> / <span class="period">2 year</span></div>
-            <span class="feature-tag">🎬 Streaming</span>
-        </div>
-
-        <div class="vpn-card">
-            <div class="vpn-name">Switch VPN</div>
-            <div class="pricing"><span class="price">$60</span> / <span class="period">1 year</span></div>
-        </div>
-
-        <div class="vpn-card">
-            <div class="vpn-name">Turbo VPN</div>
-            <div class="pricing"><span class="price">$90</span> / <span class="period">27 Months</span></div>
-        </div>
-
-        <div class="vpn-card">
-            <div class="vpn-name">Fly VPN</div>
-            <div class="pricing"><span class="price">$120</span> / <span class="period">2 year</span></div>
-        </div>
-
-        <div class="vpn-card">
-            <div class="vpn-name">Air VPN</div>
-            <div class="pricing"><span class="price">99€</span> / <span class="period">3 year</span></div>
-        </div>
-
-        <div class="vpn-card">
-            <div class="vpn-card"></div>
-            <div class="pricing"><span class="price">$70</span> / <span class="period">2 year</span></div>
-        </div>
-
-        <div class="vpn-card">
-            <div class="vpn-name">Zoog VPN</div>
-            <div class="pricing"><span class="price">$60</span> / <span class="period">2 year</span></div>
-        </div>
-
-        <div class="vpn-card">
-            <div class="vpn-name">Switch VPN V2</div>
-            <div class="pricing"><span class="price">$90</span> / <span class="period">1 year</span></div>
-        </div>
-
-        <div class="vpn-card">
-            <div class="vpn-name">Avira VPN</div>
-            <div class="pricing"><span class="price">$78</span> / <span class="period">1 year</span></div>
-        </div>
-
-        <div class="vpn-card">
-            <div class="vpn-name">NordLayer VPN</div>
-            <div class="pricing"><span class="price">$8</span> / <span class="period">Month</span></div>
-        </div>
-
-        <div class="vpn-card">
-            <div class="vpn-name">Plus.Award-VPN</div>
-            <div class="pricing"><span class="price">£49</span> / <span class="period">1 year</span></div>
-        </div>
-
-        <div class="vpn-card">
-            <div class="vpn-name">Vuze VPN</div>
-            <div class="pricing"><span class="price">$72</span> / <span class="period">1 year</span></div>
-        </div>
-
-        <div class="vpn-card">
-            <div class="vpn-name">OVPN</div>
-            <div class="pricing"><span class="price">$60</span> / <span class="period">1 year</span></div>
-            <div class="pricing"><span class="price">$152</span> / <span class="period">3 years</span></div>
-        </div>
-
-        <div class="vpn-card">
-            <div class="vpn-name">Express VPN</div>
-            <div class="pricing"><span class="price">$78.18</span> / <span class="period">28 Months</span></div>
-        </div>
-
-        <div class="vpn-card">
-            <div class="vpn-name">Nord VPN</div>
-            <div class="pricing"><span class="price">$82</span> / <span class="period">2 year</span></div>
-        </div>
-
-        <div class="vpn-card">
-            <div class="vpn-name">CyberGhost VPN</div>
-            <div class="pricing"><span class="price">$57</span> / <span class="period">2 years</span></div>
-        </div>
-
-        <div class="vpn-card">
-            <div class="vpn-name">HideMyAss VPN (HMA)</div>
-            <div class="pricing"><span class="price">$108</span> / <span class="period">3 year</span></div>
-        </div>
-
-        <div class="vpn-card">
-            <div class="vpn-name">AVG VPN</div>
-            <div class="pricing"><span class="price">$135</span> / <span class="period">3 year</span></div>
-        </div>
-
-        <div class="vpn-card">
-            <div class="vpn-name">VPN Unlimited</div>
-            <div class="pricing"><span class="price">$60</span> / <span class="period">1 year</span></div>
-            <div class="pricing"><span class="price">$162</span> / <span class="period">3 years</span></div>
-        </div>
-
+    <div class="table-wrapper">
+        <table>
+            <thead>
+            <tr>
+                <th>VPN Name</th>
+                <th>Plan (USD) &nbsp; | &nbsp; تخمینہ PKR</th>
+                <th>Official Website</th>
+            </tr>
+            </thead>
+            <tbody>
+            <!-- data sorted alphabetically by VPN name (english left) -->
+            <tr><td class="vpn-name">Air VPN</td><td class="plan-cell"><span class="price-badge">99€ / 3 Years</span> <span class="pkr-badge">≈ 29,800 PKR</span></td><td><a class="website-link" href="https://www.airvpn.org" target="_blank"><span>🌐</span> airvpn.org</a></td></tr>
+            <tr><td class="vpn-name">AVG VPN</td><td class="plan-cell"><span class="price-badge">$135 / 3 Years</span> <span class="pkr-badge">≈ 37,800 PKR</span></td><td><a class="website-link" href="https://www.avg.com/vpn" target="_blank"><span>🌐</span> avg.com/vpn</a></td></tr>
+            <tr><td class="vpn-name">Avira</td><td class="plan-cell"><span class="price-badge">$78 / 1 Year</span> <span class="pkr-badge">≈ 21,840 PKR</span></td><td><a class="website-link" href="https://www.avira.com" target="_blank"><span>🌐</span> avira.com</a></td></tr>
+            <tr><td class="vpn-name">BitDefender</td><td class="plan-cell"><span class="price-badge">$35 / 1 Year</span> <span class="pkr-badge">≈ 9,800 PKR</span></td><td><a class="website-link" href="https://www.bitdefender.com" target="_blank"><span>🌐</span> bitdefender.com</a></td></tr>
+            <tr><td class="vpn-name">Browsec</td><td class="plan-cell"><span class="price-badge">$48 / 2 Years</span> <span class="pkr-badge">≈ 13,440 PKR</span></td><td><a class="website-link" href="https://browsec.com" target="_blank"><span>🌐</span> browsec.com</a></td></tr>
+            <tr><td class="vpn-name">Cactus VPN</td><td class="plan-cell"><span class="price-badge">$70 / 32 Months</span> <span class="pkr-badge">≈ 19,600 PKR</span></td><td><a class="website-link" href="https://www.cactusvpn.com" target="_blank"><span>🌐</span> cactusvpn.com</a></td></tr>
+            <tr><td class="vpn-name">CyberGhost VPN</td><td class="plan-cell"><span class="price-badge">$57 / 2 Years</span> <span class="pkr-badge">≈ 15,960 PKR</span></td><td><a class="website-link" href="https://www.cyberghostvpn.com" target="_blank"><span>🌐</span> cyberghostvpn.com</a></td></tr>
+            <tr><td class="vpn-name">Express VPN</td><td class="plan-cell"><span class="price-badge">$78.18 / 28 Months</span> <span class="pkr-badge">≈ 21,890 PKR</span></td><td><a class="website-link" href="https://www.expressvpn.com" target="_blank"><span>🌐</span> expressvpn.com</a></td></tr>
+            <tr><td class="vpn-name">Fastest VPN</td><td class="plan-cell"><span class="price-badge">$20 / 2 Years</span> <span class="pkr-badge">≈ 5,600 PKR</span> <span class="price-badge">$40 / Lifetime</span> <span class="pkr-badge">≈ 11,200 PKR</span></td><td><a class="website-link" href="https://www.fastestvpn.com" target="_blank"><span>🌐</span> fastestvpn.com</a></td></tr>
+            <tr><td class="vpn-name">Fly VPN</td><td class="plan-cell"><span class="price-badge">$120 / 2 Years</span> <span class="pkr-badge">≈ 33,600 PKR</span></td><td><a class="website-link" href="https://www.flyvpn.com" target="_blank"><span>🌐</span> flyvpn.com</a></td></tr>
+            <tr><td class="vpn-name">Hide.me</td><td class="plan-cell"><span class="price-badge">$70 / 2 Years</span> <span class="pkr-badge">≈ 19,600 PKR</span></td><td><a class="website-link" href="https://hide.me" target="_blank"><span>🌐</span> hide.me</a></td></tr>
+            <tr><td class="vpn-name">HideMyAss VPN</td><td class="plan-cell"><span class="price-badge">$108 / 3 Years</span> <span class="pkr-badge">≈ 30,240 PKR</span></td><td><a class="website-link" href="https://www.hidemyass.com" target="_blank"><span>🌐</span> hidemyass.com</a></td></tr>
+            <tr><td class="vpn-name">Hotspot Shield</td><td class="plan-cell"><span class="price-badge">$8 / Month</span> <span class="pkr-badge">≈ 2,240 PKR/mo</span></td><td><a class="website-link" href="https://www.hotspotshield.com" target="_blank"><span>🌐</span> hotspotshield.com</a></td></tr>
+            <tr><td class="vpn-name">IPVanish VPN <span style="font-weight:400;">(Unlimited)</span></td><td class="plan-cell"><span class="price-badge">$47 / 1 Year</span> <span class="pkr-badge">≈ 13,160 PKR</span></td><td><a class="website-link" href="https://www.ipvanish.com" target="_blank"><span>🌐</span> ipvanish.com</a></td></tr>
+            <tr><td class="vpn-name">iProVPN</td><td class="plan-cell"><span class="price-badge">$6 / Month</span> <span class="pkr-badge">≈ 1,680 PKR/mo</span> <span class="price-badge">$20 / 1 Year</span> <span class="pkr-badge">≈ 5,600 PKR</span> <span class="price-badge">$40 / 5 Years</span> <span class="pkr-badge">≈ 11,200 PKR</span></td><td><a class="website-link" href="https://www.iprovpn.com" target="_blank"><span>🌐</span> iprovpn.com</a></td></tr>
+            <tr><td class="vpn-name">iShosting</td><td class="plan-cell"><span class="price-badge">$7 / Month</span> <span class="pkr-badge">≈ 1,960 PKR/mo</span></td><td><a class="website-link" href="https://www.ishosting.com" target="_blank"><span>🌐</span> ishosting.com</a></td></tr>
+            <tr><td class="vpn-name">Ivacy VPN</td><td class="plan-cell"><span class="price-badge">$54 / 2 Years</span> <span class="pkr-badge">≈ 15,120 PKR</span> <span class="price-badge">$102 / 5 Years</span> <span class="pkr-badge">≈ 28,560 PKR</span></td><td><a class="website-link" href="https://www.ivacy.com" target="_blank"><span>🌐</span> ivacy.com</a></td></tr>
+            <tr><td class="vpn-name">IVPN</td><td class="plan-cell"><span class="price-badge">1 Week $2</span> <span class="pkr-badge">≈ 560 PKR</span> <span class="price-badge">1 Month $6</span> <span class="pkr-badge">≈ 1,680 PKR</span> <span class="price-badge">1 Year $60</span> <span class="pkr-badge">≈ 16,800 PKR</span> <span class="price-badge">2 Y $100</span> <span class="pkr-badge">≈ 28,000 PKR</span> <span class="price-badge">3 Y $140</span> <span class="pkr-badge">≈ 39,200 PKR</span></td><td><a class="website-link" href="https://www.ivpn.net" target="_blank"><span>🌐</span> ivpn.net</a></td></tr>
+            <tr><td class="vpn-name">LE-VPN</td><td class="plan-cell"><span class="price-badge">$80 / 3 Years</span> <span class="pkr-badge">≈ 22,400 PKR</span></td><td><a class="website-link" href="https://www.le-vpn.com" target="_blank"><span>🌐</span> le-vpn.com</a></td></tr>
+            <tr><td class="vpn-name">Mullvad VPN</td><td class="plan-cell"><span class="price-badge">$6 / Month</span> <span class="pkr-badge">≈ 1,680 PKR/mo</span></td><td><a class="website-link" href="https://mullvad.net" target="_blank"><span>🌐</span> mullvad.net</a></td></tr>
+            <tr><td class="vpn-name">Namecheap VPN</td><td class="plan-cell"><span class="price-badge">$12 / 1 Year</span> <span class="pkr-badge">≈ 3,360 PKR</span> <span class="price-badge">$68 / 3 Years</span> <span class="pkr-badge">≈ 19,040 PKR</span></td><td><a class="website-link" href="https://www.namecheap.com/vpn" target="_blank"><span>🌐</span> namecheap.com/vpn</a></td></tr>
+            <tr><td class="vpn-name">Netflix VPN</td><td class="plan-cell"><span class="price-badge">$60 / 2 Years</span> <span class="pkr-badge">≈ 16,800 PKR</span></td><td><a class="website-link" href="https://www.netflixvpn.com" target="_blank"><span>🌐</span> netflixvpn.com</a></td></tr>
+            <tr><td class="vpn-name">NextDNS.io</td><td class="plan-cell"><span class="price-badge">$2 / Month</span> <span class="pkr-badge">≈ 560 PKR/mo</span> <span class="price-badge">$20 / Year</span> <span class="pkr-badge">≈ 5,600 PKR</span></td><td><a class="website-link" href="https://nextdns.io" target="_blank"><span>🌐</span> nextdns.io</a></td></tr>
+            <tr><td class="vpn-name">Nord VPN</td><td class="plan-cell"><span class="price-badge">$82 / 2 Years</span> <span class="pkr-badge">≈ 22,960 PKR</span></td><td><a class="website-link" href="https://nordvpn.com" target="_blank"><span>🌐</span> nordvpn.com</a></td></tr>
+            <tr><td class="vpn-name">NordLayer VPN</td><td class="plan-cell"><span class="price-badge">$8 / Month</span> <span class="pkr-badge">≈ 2,240 PKR/mo</span></td><td><a class="website-link" href="https://www.nordlayer.com" target="_blank"><span>🌐</span> nordlayer.com</a></td></tr>
+            <tr><td class="vpn-name">OVPN</td><td class="plan-cell"><span class="price-badge">$60 / 1 Year</span> <span class="pkr-badge">≈ 16,800 PKR</span> <span class="price-badge">$152 / 3 Years</span> <span class="pkr-badge">≈ 42,560 PKR</span></td><td><a class="website-link" href="https://www.ovpn.com" target="_blank"><span>🌐</span> ovpn.com</a></td></tr>
+            <tr><td class="vpn-name">Panda VPN</td><td class="plan-cell"><span class="price-badge">$40 / 1 Year</span> <span class="pkr-badge">≈ 11,200 PKR</span></td><td><a class="website-link" href="https://pandavpnpro.com" target="_blank"><span>🌐</span> pandavpnpro.com</a></td></tr>
+            <tr><td class="vpn-name">Plus.Award-VPN</td><td class="plan-cell"><span class="price-badge">£49 / 1 Year</span> <span class="pkr-badge">≈ 17,150 PKR</span></td><td><a class="website-link" href="https://awardvpn.com" target="_blank"><span>🌐</span> awardvpn.com</a></td></tr>
+            <tr><td class="vpn-name">Private Internet Access</td><td class="plan-cell"><span class="price-badge">$79 / 3 Years</span> <span class="pkr-badge">≈ 22,120 PKR</span></td><td><a class="website-link" href="https://www.privateinternetaccess.com" target="_blank"><span>🌐</span> privateinternetaccess.com</a></td></tr>
+            <tr><td class="vpn-name">Private VPN</td><td class="plan-cell"><span class="price-badge">$72 / 3 Years</span> <span class="pkr-badge">≈ 20,160 PKR</span></td><td><a class="website-link" href="https://privatevpn.com" target="_blank"><span>🌐</span> privatevpn.com</a></td></tr>
+            <tr><td class="vpn-name">Privado VPN</td><td class="plan-cell"><span class="price-badge">$16 / 1 Year</span> <span class="pkr-badge">≈ 4,480 PKR</span> <span class="price-badge">$27 / 2 Years</span> <span class="pkr-badge">≈ 7,560 PKR</span></td><td><a class="website-link" href="https://privadovpn.com" target="_blank"><span>🌐</span> privadovpn.com</a></td></tr>
+            <tr><td class="vpn-name">Proton VPN</td><td class="plan-cell"><span class="price-badge">$72 / 2 Years</span> <span class="pkr-badge">≈ 20,160 PKR</span></td><td><a class="website-link" href="https://protonvpn.com" target="_blank"><span>🌐</span> protonvpn.com</a></td></tr>
+            <tr><td class="vpn-name">Pure VPN</td><td class="plan-cell"><span class="price-badge">$58 / 27 Months</span> <span class="pkr-badge">≈ 16,240 PKR</span></td><td><a class="website-link" href="https://www.purevpn.com" target="_blank"><span>🌐</span> purevpn.com</a></td></tr>
+            <tr><td class="vpn-name">SafeShell VPN</td><td class="plan-cell"><span class="price-badge">$17 / 3 Months</span> <span class="pkr-badge">≈ 4,760 PKR</span> <span class="price-badge">$60 / 1 Year</span> <span class="pkr-badge">≈ 16,800 PKR</span></td><td><a class="website-link" href="https://www.safeshellvpn.com" target="_blank"><span>🌐</span> safeshellvpn.com</a></td></tr>
+            <tr><td class="vpn-name">Smart DNS Proxy</td><td class="plan-cell"><span class="price-badge">$7/Mo</span> <span class="pkr-badge">≈1,960/mo</span> <span class="price-badge">$18/3Mo</span><span class="pkr-badge">≈5,040</span> <span class="price-badge">$55/1Y</span><span class="pkr-badge">≈15,400</span> <span class="price-badge">$70/2Y</span><span class="pkr-badge">≈19,600</span> <span class="price-badge">$200/LT</span><span class="pkr-badge">≈56,000</span></td><td><a class="website-link" href="https://www.smartdnsproxy.com" target="_blank"><span>🌐</span> smartdnsproxy.com</a></td></tr>
+            <tr><td class="vpn-name">Smarty DNS</td><td class="plan-cell"><span class="price-badge">$50 / 1 Year</span> <span class="pkr-badge">≈ 14,000 PKR</span></td><td><a class="website-link" href="https://www.smartydns.com" target="_blank"><span>🌐</span> smartydns.com</a></td></tr>
+            <tr><td class="vpn-name">Strong VPN</td><td class="plan-cell"><span class="price-badge">$48 / 1 Year</span> <span class="pkr-badge">≈ 13,440 PKR</span></td><td><a class="website-link" href="https://strongvpn.com" target="_blank"><span>🌐</span> strongvpn.com</a></td></tr>
+            <tr><td class="vpn-name">Surfshark VPN <span style="font-weight:400;">(Unlimited)</span></td><td class="plan-cell"><span class="price-badge">$53.73 / 27 Months</span> <span class="pkr-badge">≈ 15,044 PKR</span></td><td><a class="website-link" href="https://surfshark.com" target="_blank"><span>🌐</span> surfshark.com</a></td></tr>
+            <tr><td class="vpn-name">Switch VPN</td><td class="plan-cell"><span class="price-badge">$60/1Y</span> <span class="pkr-badge">≈16,800</span> <span class="price-badge">$90/1Y</span> <span class="pkr-badge">≈25,200</span></td><td><a class="website-link" href="https://switchvpn.net" target="_blank"><span>🌐</span> switchvpn.net</a></td></tr>
+            <tr><td class="vpn-name">TorGuard VPN</td><td class="plan-cell"><span class="price-badge">$60 / 1 Year</span> <span class="pkr-badge">≈ 16,800 PKR</span></td><td><a class="website-link" href="https://torguard.net" target="_blank"><span>🌐</span> torguard.net</a></td></tr>
+            <tr><td class="vpn-name">Trust.Zone</td><td class="plan-cell"><span class="price-badge">$56 / 2 Years</span> <span class="pkr-badge">≈ 15,680 PKR</span></td><td><a class="website-link" href="https://trust.zone" target="_blank"><span>🌐</span> trust.zone</a></td></tr>
+            <tr><td class="vpn-name">TunnelBear</td><td class="plan-cell"><span class="price-badge">$48 / 1 Year</span> <span class="pkr-badge">≈ 13,440 PKR</span></td><td><a class="website-link" href="https://www.tunnelbear.com" target="_blank"><span>🌐</span> tunnelbear.com</a></td></tr>
+            <tr><td class="vpn-name">Turbo VPN</td><td class="plan-cell"><span class="price-badge">$90 / 27 Months</span> <span class="pkr-badge">≈ 25,200 PKR</span></td><td><a class="website-link" href="https://www.turbovpn.com" target="_blank"><span>🌐</span> turbovpn.com</a></td></tr>
+            <tr><td class="vpn-name">Unlocator</td><td class="plan-cell"><span class="price-badge">$70 / 2 Years</span> <span class="pkr-badge">≈ 19,600 PKR</span></td><td><a class="website-link" href="https://www.unlocator.com" target="_blank"><span>🌐</span> unlocator.com</a></td></tr>
+            <tr><td class="vpn-name">UTunnel.io</td><td class="plan-cell"><span class="price-badge">$6 / Month</span> <span class="pkr-badge">≈ 1,680 PKR/mo</span></td><td><a class="website-link" href="https://utunnel.io" target="_blank"><span>🌐</span> utunnel.io</a></td></tr>
+            <tr><td class="vpn-name">VeePN</td><td class="plan-cell"><span class="price-badge">$56 / 28 Months</span> <span class="pkr-badge">≈ 15,680 PKR</span></td><td><a class="website-link" href="https://veepn.com" target="_blank"><span>🌐</span> veepn.com</a></td></tr>
+            <tr><td class="vpn-name">VPN Unlimited</td><td class="plan-cell"><span class="price-badge">$60/1Y</span> <span class="pkr-badge">≈16,800</span> <span class="price-badge">$162/3Y</span> <span class="pkr-badge">≈45,360</span></td><td><a class="website-link" href="https://www.vpnunlimitedapp.com" target="_blank"><span>🌐</span> vpnunlimitedapp.com</a></td></tr>
+            <tr><td class="vpn-name">Vuze VPN</td><td class="plan-cell"><span class="price-badge">$72 / 1 Year</span> <span class="pkr-badge">≈ 20,160 PKR</span></td><td><a class="website-link" href="https://www.vuzevpn.com" target="_blank"><span>🌐</span> vuzevpn.com</a></td></tr>
+            <tr><td class="vpn-name">Vypr VPN</td><td class="plan-cell"><span class="price-badge">$72 / 2 Years</span> <span class="pkr-badge">≈ 20,160 PKR</span></td><td><a class="website-link" href="https://www.vyprvpn.com" target="_blank"><span>🌐</span> vyprvpn.com</a></td></tr>
+            <tr><td class="vpn-name">Windscribe</td><td class="plan-cell"><span class="price-badge">$70 / 1 Year</span> <span class="pkr-badge">≈ 19,600 PKR</span></td><td><a class="website-link" href="https://windscribe.com" target="_blank"><span>🌐</span> windscribe.com</a></td></tr>
+            <tr><td class="vpn-name">X VPN</td><td class="plan-cell"><span class="price-badge">$3/Mo</span> <span class="pkr-badge">≈840/mo</span> <span class="price-badge">$70/2Y</span> <span class="pkr-badge">≈19,600</span></td><td><a class="website-link" href="https://xvpn.io" target="_blank"><span>🌐</span> xvpn.io</a></td></tr>
+            <tr><td class="vpn-name">Zoog VPN</td><td class="plan-cell"><span class="price-badge">$60 / 2 Years</span> <span class="pkr-badge">≈ 16,800 PKR</span></td><td><a class="website-link" href="https://www.zoogvpn.com" target="_blank"><span>🌐</span> zoogvpn.com</a></td></tr>
+            </tbody>
+        </table>
     </div>
-
-    <script>
-        // Theme Toggle Function
-        function toggleTheme() {
-            const body = document.body;
-            const toggleBtn = document.getElementById('themeToggle');
-            
-            body.classList.toggle('light-mode');
-            
-            if (body.classList.contains('light-mode')) {
-                body.classList.remove('dark-mode');
-                toggleBtn.textContent = '🌙 Dark Mode';
-                localStorage.setItem('theme', 'light');
-            } else {
-                body.classList.toggle('light-mode');
-                toggleBtn.textContent = '☀️ Light Mode';
-                localStorage.setItem('theme', 'dark');
-            }
-        }
-
-        // Check Saved Theme on Load
-        document.addEventListener('DOMContentLoaded', () => {
-            const savedTheme = localStorage.getItem('theme');
-            if (savedTheme === 'dark') {
-                document.body.classList.remove('light-mode');
-            }
-        });
-    </script>
+    <div style="text-align: center; margin-top: 2rem;">
+        <span class="footer-note">🇵🇰 PKR values are estimated (USD 1 = PKR 280) • alphabetical order • official site links</span>
+    </div>
+</div>
 </body>
 </html>
